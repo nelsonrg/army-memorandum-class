@@ -1,55 +1,73 @@
+# Army Memorandum LaTeX Class
 
-Army Memorandum LaTeX Class
-============
+Provides a basic AR 25-50 memo in latex.
 
-![Sample Memo](example.png)
+## Setup
 
-## Purpose
-Provides a basic AR 25-50 memo in LaTeX.
-## Requirements
-- Requires XeLaTeX for font handling.
-- Requires the Arial font to be installed, if it's not already.
-### Ubuntu
-To install the XeLaTeX, run the following commands:
-```
-sudo apt-get install texlive-xetex
-```
-To install the Arial font:
-```
+* Requires LuaLaTeX or XeLaTeX for font handling.
+* Install Arial font ("preferred" by AR 25-50 1-17)
+
+Debian:
+```bash
 sudo apt-get install ttf-mscorefonts-installer
 sudo fc-cache
+fc-match Arial
 ```
-### MacOS
-The Arial font will already be installed, but you will need to install XeLaTeX [here](http://www.tug.org/mactex/index.html).
-### Windows
-- Download protex from [here](https://www.tug.org/protext/)
-- Extract and install miktex full and texstudio
-- In texstudio click Tools->Commands->XeLaTeX to compile 
 
-## Installation and Usage
-Within a terminal:
-```
-git clone https://github.com/git@github.com:rgnelson00/army-memorandum-class.git
-cd army-memorandum
-make
-```
-You'll find the file `example.pdf` in the directory.
-To change the data, use your favorite text editor to edit `example.tex` and then run `make` again.
+Fedora:
 
-## Credits
-This is a fork from George Allen's project and his collaborators.
-Modifications made by Roberts Nelson.
+## Usage
+
+See `example.tex` and (TODO) template.tex.
+
+A minimum set of declarations are required for the office-symbol, subject,
+signature block, etc. After these options, within `\begin{document}` ...
+`\end{document}`, the structure is based on an `enumerate` list. This is a major
+break from the previous version, but much better for writing, as a good LaTeX
+editor will facilitate editing the nested list. Also, I intend to tie this into
+my emacs org-mode configuration eventually to further ease writing.
+
+The basic structure looks like:
+
+```latex
+\documentclass{armymemo}
+
+\author{John W. Smith}
+\rank{CPT}
+\branch{CY}
+\officesymbol{ABC-DEF-GH}
+\signaturedate{10 April 2019}
+\memoline{MEMORANDUM FOR RECORD}
+\subject[(U) ]{The creation of memos using \LaTeX}
+\authority{BY ORDER OF THE COMMANDER}
+
+\begin{document}
+
+\begin{enumerate}
+\item This memo is a demo.
+\item This item contains sub items.
+  \begin{enumerate}
+  \item Thing one.
+  \item Thing two.
+  \end{enumerate}
+\item Point of contact is the undersigned.
+\end{enumerate}
+
+\end{document}
+```
+
+## Compile
+
+```bash
+latexmk -pdf -pvc -lualatex example.tex
+```
+
+## Thanks
+Thanks to @jschaf for enumitem and a better document template, also @pconwell, @kjelderg, @nelsonrg, and others.
+
 
 -----------------------------------------------------------------------------
-
-Thanks for updates from:
- Patrick Conwell (2014-)
- Eric Kjeldergaard (2015-)
-
-
------------------------------------------------------------------------------
-## License
-Copyright (c) 2011 George L. Allen <glallen01@gmail.com> All rights reserved.
+Copyright (c) 2011 George Allen, All rights reserved.
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

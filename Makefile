@@ -1,32 +1,16 @@
-pdf: example.pdf
+SRC=$(wildcard *.tex)
 
+.PHONY: check clean proper
 
-example.pdf: example.tex armymemo.cls
-	xelatex example.tex
-	xelatex example.tex
+all:
+	cd examples && $(MAKE) all
+
+check: armymemo.cls
+	chktex armymemo.cls
 
 clean:
-	-rm -f \
-		*-blx.bib \
-		*.aux \
-		*.bbl \
-		*.bcf \
-		*.blg \
-		*.brf \
-		*.dvi \
-		*.ent \
-		*.fdb_latexmk \
-		*.idx \
-		*.ilg \
-		*.ind \
-		*.lof \
-		*.log \
-		*.lot \
-		*.orig \
-		*.out \
-		*.pdf \
-		*.rtf \
-		*.run.xml \
-		*.toc \
-		*.url 
+	cd examples && $(MAKE) clean
+
+proper: clean
+	cd examples && $(MAKE) proper
 
