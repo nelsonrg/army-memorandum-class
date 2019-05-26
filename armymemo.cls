@@ -315,7 +315,7 @@
   % Check if more than 1 enclosure
   \ifnumcomp{\value{am@encl@count}}{>}{1}{%
     \noindent\theam@encl@count{} Encls%
-      \begin{enumerate}[topsep=0pt,itemsep=0pt,parsep=0pt,leftmargin=16pt,itemindent=0pt,align=left,label={\arabic*.}]
+    \begin{enumerate}[parsep=0pt,label={\arabic*.}]
         \forlistloop{\am@do@encl}{\am@list@encls}
       \end{enumerate}
     }{% Not more than 1 enclosure
