@@ -1,21 +1,28 @@
 % Army memo class
-
-% George Allen base64(Z2xhbGxlbjAx) AT base64(Z21haWwuY29t)
-
 \ProvidesClass{armymemo}[2019/03/10 0.2.1 Army Memorandum Class]
 \NeedsTeXFormat{LaTeX2e}
 
+% \LoadClass[
+%         12pt,
+%         letterpaper,
+%         headings=small,
+%         oneside,
+%         DIV=15
+%         ]{scrartcl}
+
 \LoadClass[
-  12pt,
-  oneside,
-  headings=small,
-  DIV=15
-]{scrartcl}
+    12pt
+]{article}        
 
 
 \AtBeginDocument{%
   \ifstrempty{\am@documentmark}{}{%
-    \backgroundsetup{opacity=1, scale=1, angle=0,contents={\am@classmark{\am@documentmark}}}\BgThispage
+    \backgroundsetup{
+      opacity=1,
+      scale=1,
+      angle=0,
+      contents={\am@classmark{\am@documentmark}}
+    }\BgThispage
   }
   \am@putlogo%
   \dodheader%
@@ -282,7 +289,7 @@
 
 %%%%% ----------------------------------------------------------------
 
-\renewcommand{\subject}[1]{\def\am@subject{SUBJECT: #1}}
+\newcommand{\subject}[1]{\def\am@subject{SUBJECT: #1}}
 \subject{\am@MissingRequiredArgWarning{subject}{DRAFT}}
 
 % top and bottom of page classification markings
@@ -305,21 +312,23 @@
 \newcounter{am@encl@count}
 \newcommand{\addencl}[1]{\stepcounter{am@encl@count}\listadd{\am@list@encls}{#1}}
 \newcommand{\am@encls}{%
-  \ifnumcomp{\value{am@encl@count}}{=}{0}{%
-    \noindent{}Encl\\[2\baselineskip]%
-  }{%
-    \ifnumcomp{\value{am@encl@count}}{=}{1}{%
+  % Check if more than 1 enclosure
+  \ifnumcomp{\value{am@encl@count}}{>}{1}{%
+    \noindent\theam@encl@count{} Encls%
+      \begin{enumerate}[topsep=0pt,itemsep=0pt,parsep=0pt,leftmargin=16pt,itemindent=0pt,align=left,label={\arabic*.}]
+        \forlistloop{\am@do@encl}{\am@list@encls}
+      \end{enumerate}
+    }{% Not more than 1 enclosure
+      % Check if 1 enclosure
+    \ifnumcomp{\value{am@encl@count}}{>}{0}{%
       \noindent{}Encl%
       \begin{enumerate}[topsep=0pt,itemsep=0pt,parsep=0pt,itemindent=0pt,align=left,label={}]
         \forlistloop{\am@do@encl}{\am@list@encls}
       \end{enumerate}
       \vspace{\baselineskip}
-    }{}%
-    \ifnumcomp{\value{am@encl@count}}{>}{2}{%
-      \noindent\theam@encl@count{} Encls%
-      \begin{enumerate}[topsep=0pt,itemsep=0pt,parsep=0pt,leftmargin=16pt,itemindent=0pt,align=left,label={\arabic*.}]
-        \forlistloop{\am@do@encl}{\am@list@encls}
-      \end{enumerate}}{}
+    }{% Less than 1 enclosure
+      \noindent{}\\[2\baselineskip]%
+    }
   }
 }
 
@@ -360,9 +369,7 @@
 \newcommand{\am@putlogo}{%
   \begin{tikzpicture}[remember picture, overlay]%
     \node[anchor=north west,inner sep=0pt,xshift=0.5in, yshift=-0.5in]%
-      at (current page.north west) {\includegraphics[width=1in]{\am@logo}};%
-    \node[anchor=north west,inner sep=0pt,xshift=1.5in, yshift=-1.25in,text width=1in]%
-	  at (current page.north west) {\scriptsize{REPLY TO\\\vspace{-6pt}ATTENTION OF:}};
+      at (current page.north west) {\includegraphics[width=1in]{\am@logo}};
   \end{tikzpicture}%
 }
 
