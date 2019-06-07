@@ -1,19 +1,10 @@
 % Army memo class
-\ProvidesClass{armymemo}[2019/03/10 0.2.1 Army Memorandum Class]
+\ProvidesClass{armymemo}[2019/06/07 Army Memorandum Class]
 \NeedsTeXFormat{LaTeX2e}
-
-% \LoadClass[
-%         12pt,
-%         letterpaper,
-%         headings=small,
-%         oneside,
-%         DIV=15
-%         ]{scrartcl}
 
 \LoadClass[
     12pt
 ]{article}        
-
 
 \AtBeginDocument{%
   \ifstrempty{\am@documentmark}{}{%
